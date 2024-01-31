@@ -1,0 +1,124 @@
+          <li class="nav-item">
+            <a class="nav-link" href="/signup">Signup</a>
+          </li>
+
+go to templates and create base.html >> cut the navbar from index.html
+
+then all html files created
+2. app>>models.py 
+model create
+from django.db import models
+from django.contrib.auth.models import User
+class TODO(models.Model):
+    status_choices = [
+    ('C', 'COMPLETED'),
+    ('P', 'PENDING'),
+    ]
+    priority_choices = [
+    ('1', '1st'),
+    ('2', '2nd'),
+    ('3', '3rd'),
+    ('4', '4th'),
+    ('5', '5th'),
+    ('6', '6th'),
+    ('7', '7th'),
+    ]
+    title = models.CharField(max_length=50)
+    status = models.CharField(max_length=2 , choices=status_choices)
+    user  = models.ForeignKey(User  , on_delete= models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    priority = models.CharField(max_length=7 , choices=priority_choices)
+
+    then migrate 
+    then admin.py then 
+
+from django.contrib import admin
+from app.models import TODO
+admin.site.register(TODO)
+3.
+todo form create
+create forms.py 
+from django.forms import ModelForm
+
+from app.models import TODO
+class TODOForm(ModelForm):
+    class Meta:
+        model = TODO
+        fields = ['title' , 'status' , 'priority']
+
+then go to index.py >>
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div>
+  <div class="container pt-4">
+    <div class="row" mt-5>
+      <div class="col-lg-4 mx-auto shadow p-0 ">
+        <div class="alert alert-info">
+          <h2>Add New Todo</h2>
+        </div>
+        <div>
+          <div class=" p-4">
+            <form action="/add-todo/" method="POST">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <hr>
+              <input type="submit" value="add" class="btn btn-info"></input>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="col pt-4">
+        <div class="border">
+          {% lorem 1 b random %}
+
+        </div>
+     </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+then create view
+
+
+def home(request):
+    form = TODOForm()
+
+    return render(request,'index.html',context={'form': form})
+
+then 
+
+def add_todo(request):
+    if request.user.is_authenticated:
+        user = request.user
+        print(user)
+        form = TODOForm(request.POST)
+        if form.is_valid():
+            print(form.cleaned_data)
+            todo = form.save(commit=False)
+            todo.user = user
+            todo.save()
+            print(todo)
+            return redirect("home")
+        else: 
+            return render(request , 'index.html' , context={'form' : form})
+
+the edit this
+
+def home(request):
+    form = TODOForm()
+    todos=TODO.objects.all()---- eta add korbo
+
+    return render(request,'index.html',context={'form': form, 'todos':todos})
+
+
+then index.html eeee
+{{todos}}---- ad korbo lorem epsum er jaigai
+
+
+

@@ -1,0 +1,54 @@
+1. login required . 
+if I am not loggedin then I wont see the home page and can't add todo
+so , go to views.py then ,,
+---from django.contrib.auth.decorators import login_required
+---@login_required(login_url='login') #this is why I can't see the home page
+---def home(request):                 # I can only see the login page
+    if request.user.is_authenticated:
+    #
+    #
+---@login_required(login_url='login')
+---def add_todo(request):
+
+2. if login in then I will see just logout
+if not login then It will show the login and signup
+
+          {% if request.user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/signup">Signup</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+          {% endif %}
+
+3.for delete todo
+ index.html
+<th>  Delete</th>
+ <td><a href="/delete-todo/{{todo.id}}" class="btn btn-danger">Delete</a></td>
+
+views.py 
+ def delete_todo(request , id ):
+    print(id)
+    TODO.objects.get(pk = id).delete()
+    return redirect('home')
+
+urls.py ::
+path('delete-todo/<int:id>' , delete_todo ),
+
+if there is no todo then index.html:
+          {% if todos|length == 0 %}
+          <div class="p-4">
+            <br>
+            <br>
+            <div class="alert alert-info text-center">
+              <h2>{{ user|title }} Have No TODO</h2>----#user|title means user name with first capital letter
+              <h1>🙁 🙁 🙁</h1>
+            </div>
+            <br>
+            <br>
+          </div>

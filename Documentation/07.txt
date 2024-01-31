@@ -1,0 +1,9 @@
+go to views.py 
+
+def home(request):
+        if request.user.is_authenticated:
+            user = request.user
+            form = TODOForm()
+            todos=TODO.objects.filter(user= user) ---- (filter cz indivisual
+             user fact)
+we did this as an user in the homepage my todos will be shown

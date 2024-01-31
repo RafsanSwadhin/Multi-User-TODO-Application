@@ -1,0 +1,4 @@
+1--- create login.html, signup.html files in templates folder
+copy past a bootstrap starter template and a navbar
+2--- python manage.py migrate
+3--- create superuser

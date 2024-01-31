@@ -1,0 +1,28 @@
+----30 m
+1.cmd hote kno file vs code e open korte chaile
+(code .) type kore enter delai hobe.
+
+2. go to app/urls.py
+
+from django.urls import path
+from django.shortcuts import HttpResponse
+
+def home(request):
+    
+    return HttpResponse("Rafsan Jani Ahmed")
+
+urlpatterns = [
+    path('', home)
+]
+
+3--- go to todo/urls.py 
+
+from django.contrib import admin
+from django.urls import path,include --(include is needed for create link with other urls )
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',include('app.urls') ),
+]
+
+4--- go to setting.py and write "app" in installed app

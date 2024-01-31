@@ -1,0 +1,16 @@
+1--go to app/views.py
+
+from django.shortcuts import render
+from django.http import HttpResponse
+
+def home(request):
+    print('hello vhi ')
+    html = '''
+
+       <h1>Home Page</h1>
+       
+    '''
+    return HttpResponse(html)
+
+2--- inside app create templates folder
+then go to settings.py and inside TEMPLATES list, write this('DIRS': ['templates'],)

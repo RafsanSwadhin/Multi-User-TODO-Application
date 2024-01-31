@@ -1,0 +1,16 @@
+1. want to logout 
+go to view.py 
+
+def signout(request):
+    logout(request)
+    return redirect('login')
+2. go to 
+
+urls.py 
+from app.views import signout
+
+urlpatterns = [
+
+    path('logout/',signout)
+
+]
